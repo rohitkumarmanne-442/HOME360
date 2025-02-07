@@ -1,5 +1,7 @@
 # HOME360
- A full-stack home services booking platform built with Django and React that connects homeowners with service providers. The platform features real-time scheduling, secure payment processing, and an intuitive service marketplace.
+
+A full-stack home services booking platform built with Django and React that connects homeowners with service providers. The platform features real-time scheduling, secure payment processing, and an intuitive service marketplace.
+
 ## Features
 
 - **Real-time Booking System**
@@ -49,38 +51,47 @@
 - Scalable architecture supporting multiple concurrent users
 - Real-time data synchronization
 
-##Backend Setup
-bashCopycd backend
+## Backend Setup
+```bash
+cd backend
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+```
 
-##Frontend Setup
-bashCopycd frontend
+## Frontend Setup
+```bash
+cd frontend
 npm install
 npm start
+```
 
+## Environment Variables
 
-##Environment Variables
 Create a .env file in the backend directory:
-envCopySECRET_KEY=your_secret_key
+```env
+SECRET_KEY=your_secret_key
 DEBUG=True
 DATABASE_URL=your_database_url
 PAYMENT_API_KEY=your_payment_api_key
+```
 
-###Admin Features
-Comprehensive dashboard with analytics
-Service provider management
-Booking oversight and conflict resolution
-Revenue tracking and reporting
+## Admin Features
 
-##Future Enhancements
-Mobile application development
-AI-powered provider matching
-Expanded payment options
-Service quality monitoring system
+- Comprehensive dashboard with analytics
+- Service provider management
+- Booking oversight and conflict resolution
+- Revenue tracking and reporting
 
-Project Timeline
+## Future Enhancements
+
+- Mobile application development
+- AI-powered provider matching
+- Expanded payment options
+- Service quality monitoring system
+
+## Project Timeline
 May 2024 - August 2024
-Contributing
+
+## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
