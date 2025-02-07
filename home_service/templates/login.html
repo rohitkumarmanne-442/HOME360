@@ -1,0 +1,123 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block body %}
+<style>
+    a:hover {
+        background-color: yellow;
+        padding: 20px;
+        border-radius: 8px;
+    }
+    .login-container {
+        max-width: 900px;
+        margin: 7% auto 0;
+    }
+    .login-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    .login-form {
+        padding: 40px;
+    }
+    .login-sidebar {
+        background-color: #6c5ce7;
+        color: #fff;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .btn-info {
+        background-color: #6c5ce7;
+        border-color: #6c5ce7;
+    }
+    .btn-outline-light:hover {
+        color: #6c5ce7;
+    }
+</style>
+
+{% if error == "pat1" %}
+<script>
+    alert('Logged in successfully');
+    window.location = '{% url "user_home" %}';
+</script>
+{% endif %}
+
+{% if error == "notmember" %}
+<script>
+    alert('Your information is pending. Please update your profile first, then continue this service');
+    window.location = '{% url "service_home" %}';
+</script>
+{% endif %}
+
+{% if error == "pat2" %}
+<script>
+    alert('Logged in successfully');
+    window.location = '{% url "service_home" %}';
+</script>
+{% endif %}
+
+{% if error == "not" %}
+<script>
+    alert('Username & Password are not matching');
+</script>
+{% endif %}
+
+<div class="w3l_banner_info" style="height:10px">
+    <div class="slider1">
+        <div class="callbacks_container">
+            <ul class="rslides" id="slider3">
+                <li>
+                    <div class="slider1-img" style="height:90px">
+                        <div class="slider_banner_info">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+</header>
+
+<section class="contact py-lg-5 py-md-4 py-md-3 py-2" id="contact" style="margin-top:7%">
+    <h3 class="mb-lg-4 mb-md-3 mb-sm-2 mb-2">Login Your Account</h3>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="row no-gutters">
+                <div class="col-lg-6">
+                    <div class="login-form">
+                        <h5 class="w3ls-title text-center text-uppercase pb-4">Login to Your Account</h5>
+                        <form action="" method="post" class="f-color">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="contactusername">Username</label>
+                                <input type="text" placeholder="Enter Your Username" class="form-control" id="contactusername" name="uname" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactemail">Password</label>
+                                <input type="password" placeholder="Enter Your Password" class="form-control" id="contactemail" name="pwd" required>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-block">Submit</button>
+                        </form>
+                        <div class="text-center mt-4">
+                            <a href="{% url 'signup' %}" style="font-weight:bold; color:blue">
+                                <i class="fa fa-hand-pointer-o" aria-hidden="true"></i> For new user create your Account
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 login-sidebar">
+                    <h2 class="mb-4">Hello, HOME360 Member!</h2>
+                    <p>"Welcome back to HOME360. Your home's well-being starts here."</p>
+                    <img src="{% static 'images/ab2.gif' %}" style="width:100%; max-width:300px; margin-top:20px;" alt=""/>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

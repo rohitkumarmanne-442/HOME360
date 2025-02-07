@@ -1,0 +1,110 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block body %}
+<div class="w3l_banner_info">
+    <div class="slider">
+        <div class="callbacks_container">
+            <ul class="rslides" id="slider3">
+                <li>
+                    <div class="slider-img">
+                        <div class="slider_banner_info">
+                            <div class="text">
+                                <h3 class="" style="color:white;font-size:40px">We Are The Best Home Service For Making Your Home Shine</h3>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="slider-img-2">
+                        <div class="slider_banner_info">
+                            <div class="text">
+                                <h3 class="wisteria" style="color:white;font-size:40px">Making your Home Shine and Spotless Is Our Business And Priority</h3>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="slider-img-3">
+                        <div class="slider_banner_info">
+                            <div class="text">
+                                <h3 class="wisteria" style="color:white;font-size:40px">Our Home Service Providers will Make You Proud in Society</h3>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</header>
+
+<!-- Why Home360? section -->
+<section class="why-home360 py-5">
+    <div class="container">
+        <h2 class="mb-4">Why Home360?</h2>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="feature d-flex mb-4">
+                    <div class="feature-icon mr-3">
+                        <img src="{% static 'images/transparent-pricing-icon.png' %}" alt="Transparent pricing" width="50" height="50">
+                    </div>
+                    <div class="feature-content">
+                        <h3>Transparent pricing</h3>
+                        <p>See fixed prices before you book. No hidden charges.</p>
+                    </div>
+                </div>
+                <div class="feature d-flex mb-4">
+                    <div class="feature-icon mr-3">
+                        <img src="{% static 'images/experts-only-icon.png' %}" alt="Experts only" width="50" height="50">
+                    </div>
+                    <div class="feature-content">
+                        <h3>Experts only</h3>
+                        <p>Our professionals are well trained and have on-job expertise.</p>
+                    </div>
+                </div>
+                <div class="feature d-flex mb-4">
+                    <div class="feature-icon mr-3">
+                        <img src="{% static 'images/fully-equipped-icon.png' %}" alt="Fully equipped" width="50" height="50">
+                    </div>
+                    <div class="feature-content">
+                        <h3>Fully equipped</h3>
+                        <p>We bring everything needed to get the job done well.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="quality-assurance p-4 rounded">
+                    <img src="{% static 'images/quality-assured-icon.webp' %}" alt="100% Quality Assured" width="100" height="250" class="mb-3">
+                    <h3>100% Quality Assured</h3>
+                    <p>If you don't love our service, we will make it right.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- All Services section -->
+<section class="all-services py-5">
+    <div class="container">
+        <h2 class="text-center mb-5" style="font-weight:bold;font-family: 'Monotype Corsiva'; color: #E6120E;">All Services</h2>
+        <div class="row">
+            {% for service in services %}
+            <div class="col-md-4 col-sm-12 mb-4">
+                <div class="card">
+                    <img class="card-img-top" src="{{ service.image.url }}" alt="{{ service.category }} image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ service.category }} (<span style="color:black;font-weight:bold">{{ service.total }}</span>)</h5>
+                        <p class="card-text">{{ service.desc }}</p>
+                        <a href="{% url 'explore_services' service.id %}" class="btn btn-primary">Explore</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+                <p class="text-center">No services found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

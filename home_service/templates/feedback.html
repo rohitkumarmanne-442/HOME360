@@ -1,0 +1,173 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block body %}
+<div class="w3l_banner_info" style="height:10px">
+    <div class="slider1">
+        <div class="callbacks_container">
+            <ul class="rslides" id="slider3">
+                <li>
+                    <div class="slider1-img" style="height:90px">
+                        <div class="slider_banner_info">
+                            <h3>Customer Feedback</h3>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</header>
+
+<section class="feedback py-lg-5 py-md-4 py-md-3 py-2" id="feedback" style="margin-top:7%">
+    <div class="container">
+        <h1 class="text-center mb-5">FEEDBACK FORM</h1>
+        
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">PROVIDE YOUR FEEDBACK</h2>
+                        <form id="feedbackForm" action="{% url 'submit_feedback' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group mb-3">
+                                <label for="feedbackName">Name</label>
+                                <input type="text" class="form-control" id="feedbackName" name="name" placeholder="Enter Your Name" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="feedbackEmail">Email</label>
+                                <input type="email" class="form-control" id="feedbackEmail" name="email" placeholder="Enter Your Email" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="service">Service Used</label>
+                                <select class="form-control" id="service" name="service" required>
+                                    <option value="">Select a service</option>
+                                    <option value="interior_design">Interior Design</option>
+                                    <option value="exterior_design">Exterior Design</option>
+                                    <option value="gardening">Gardening and Landscaping</option>
+                                    <option value="roofing">Roofing Solutions</option>
+                                    <option value="personal_care">Personal Care Services</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>Rating</label>
+                                <div class="emoji-rating text-center">
+                                    <input type="radio" name="rating" value="1" id="rating1" required>
+                                    <label for="rating1">😞</label>
+                                    
+                                    <input type="radio" name="rating" value="2" id="rating2">
+                                    <label for="rating2">🙁</label>
+                                    
+                                    <input type="radio" name="rating" value="3" id="rating3">
+                                    <label for="rating3">😐</label>
+                                    
+                                    <input type="radio" name="rating" value="4" id="rating4">
+                                    <label for="rating4">🙂</label>
+                                    
+                                    <input type="radio" name="rating" value="5" id="rating5">
+                                    <label for="rating5">😄</label>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="feedbackMessage">Your Feedback</label>
+                                <textarea class="form-control" rows="4" id="feedbackMessage" name="message" placeholder="Enter Your Feedback" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Submit Feedback</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Hello, HOME360 Member!</h2>
+                        <p class="text-center">"Your feedback helps us improve. Thank you for taking the time to share your thoughts."</p>
+                        <div class="text-center mt-4">
+                            <img src="{% static 'images/feedback.gif' %}" alt="Feedback" style="max-width: 80%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Thank You Modal -->
+<div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="thankYouModalLabel">Thank You</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Thank you for your feedback!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .emoji-rating {
+        display: flex;
+        justify-content: space-between;
+        font-size: 32px;
+    }
+    .emoji-rating input[type="radio"] {
+        display: none;
+    }
+    .emoji-rating label {
+        cursor: pointer;
+        transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .emoji-rating label:hover {
+        transform: scale(1.2);
+        filter: brightness(1.2);
+    }
+    .emoji-rating input[type="radio"]:checked + label {
+        transform: scale(1.2);
+        filter: brightness(1.2);
+        animation: bounce 0.5s;
+    }
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+        40% {transform: translateY(-20px);}
+        60% {transform: translateY(-10px);}
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            var form = event.target;
+
+            fetch(form.action, {
+                method: form.method,
+                body: new FormData(form),
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+            }).then(response => {
+                if (response.ok) {
+                    // Show the thank you modal
+                    var thankYouModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
+                    thankYouModal.show();
+                    // Reset the form
+                    form.reset();
+                } else {
+                    // Handle error here
+                    alert('An error occurred. Please try again.');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+    });
+</script>
+
+{% endblock %}

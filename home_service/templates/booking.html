@@ -1,0 +1,158 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block body %}
+{% if terror %}
+<script>
+    alert('Booking Successful, we will contact you soon');
+    window.location = '{% url 'customer_order' %}';
+</script>
+{% endif %}
+
+<div class="w3l_banner_info" style="height:10px;">
+    <div class="slider1">
+        <div class="callbacks_container">
+            <ul class="rslides" id="slider3">
+                <li>
+                    <div class="slider1-img" style="height:90px;">
+                        <div class="slider_banner_info">
+                            <!-- Banner info can be inserted here if needed -->
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<section class="contact" id="contact" style="margin-top:7%;">
+    <h3>Booking Form</h3>
+    <div class="container">
+        <div class="row contact-form">
+            <div class="col-lg-6 mt-lg-0 mt-5 contact-right">
+                <div class="address mt-3">
+                    <img src="{% static 'images/Paypal.gif' %}" style="width:100%" alt="Book Now Animation">
+                </div>
+                <div class="mt-4 text-center">
+                    <h5>Total Available Slots: <span id="totalAvailableSlots" class="badge badge-primary">{{ total_available_slots }}</span></h5>
+                    <h5>Available Slots for Selected Date: <span id="availableSlots" class="badge badge-secondary">-</span></h5>
+                </div>
+            </div>
+            <div class="col-lg-6 wthree-form-left">
+                <form id="booking-form" method="post" class="f-color" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input class="form-control" type="text" name="name" value="{{ ser.user.first_name }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile</label>
+                        <input class="form-control" type="text" name="contact" value="{{ ser.contact }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input class="form-control" type="text" name="add" value="{{ ser.address }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input class="form-control" type="date" name="date" id="bookingDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Days</label>
+                        <select class="form-control" name="day" required>
+                            <option value="">Select Days</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="4">4</option>
+                            <option value="7">7</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Hours</label>
+                        <select class="form-control" name="hour" required>
+                            <option value="">Select Hours</option>
+                            <option value="1-2">1-2</option>
+                            <option value="2-4">2-4</option>
+                            <option value="4-6">4-6</option>
+                            <option value="6-8">6-8</option>
+                        </select>
+                    </div>
+                    <button type="button" id="bookNowBtn" class="btn btn-info btn-block mt-4" disabled>Book Now</button>
+                    <div id="paypal-button-container" style="display:none; margin-top:20px;"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AbeCN0UX9paEE8N-4M4lW3E-wFariS3JsO8Ibe25KEe_ky-hdSTLGUs1zcAmtmcmpgZhGq79zgD6RRy9"></script>
+<script>
+    document.getElementById('bookingDate').addEventListener('change', function() {
+        updateAvailableSlots();
+    });
+
+    function updateAvailableSlots() {
+        const date = document.getElementById('bookingDate').value;
+        if (date) {
+            fetch(`/check_availability/{{ service_man.id }}/?date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    const availableSlots = data.available_slots;
+                    document.getElementById('availableSlots').textContent = availableSlots;
+                    document.getElementById('bookNowBtn').disabled = availableSlots === 0;
+                })
+                .catch(error => {
+                    console.error('Error updating slots:', error);
+                    alert('An error occurred while checking availability. Please try again.');
+                });
+        }
+    }
+
+    document.getElementById('bookNowBtn').addEventListener('click', function() {
+        const date = document.getElementById('bookingDate').value;
+        if (!date) {
+            alert('Please select a date before booking.');
+            return;
+        }
+
+        fetch(`/check_availability/{{ service_man.id }}/?date=${date}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.available_slots > 0) {
+                    document.getElementById('paypal-button-container').style.display = 'block';
+                    document.getElementById('paypal-button-container').scrollIntoView({behavior: 'smooth'});
+                    
+                    paypal.Buttons({
+                        createOrder: function(data, actions) {
+                            return actions.order.create({
+                                purchase_units: [{
+                                    amount: {
+                                        value: '10.00'  // Adjust based on your pricing logic
+                                    }
+                                }]
+                            });
+                        },
+                        onApprove: function(data, actions) {
+                            return actions.order.capture().then(function(details) {
+                                alert('Payment successful! Your booking will now be processed.');
+                                document.getElementById('booking-form').submit();
+                            });
+                        }
+                    }).render('#paypal-button-container');
+                } else {
+                    alert('Sorry, no slots are available for the selected date.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while checking availability. Please try again.');
+            });
+    });
+
+    // Initial update of total available slots
+    document.getElementById('totalAvailableSlots').textContent = '{{ total_available_slots }}';
+</script>
+
+{% endblock %}

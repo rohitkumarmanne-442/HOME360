@@ -1,0 +1,50 @@
+{% extends 'admin_navigation.html' %}
+{% block body %}
+
+<div class="container mt-4">
+    <h2>Feedback Responses</h2>
+    {% if feedbacks %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Rating</th>
+                    <th>Message</th>
+                    <th>Submitted At</th>
+                    <th>Addressed</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for feedback in feedbacks %}
+                <tr>
+                    <td>{{ feedback.name }}</td>
+                    <td>{{ feedback.email }}</td>
+                    <td>
+                        {% if feedback.rating == 1 %}
+                            😣
+                        {% elif feedback.rating == 2 %}
+                            🙁
+                        {% elif feedback.rating == 3 %}
+                            😐
+                        {% elif feedback.rating == 4 %}
+                            🙂
+                        {% elif feedback.rating == 5 %}
+                            😃
+                        {% else %}
+                            {{ feedback.rating }}
+                        {% endif %}
+                    </td>
+                    <td>{{ feedback.message }}</td>
+                    <td>{{ feedback.submitted_at }}</td>
+                    <td>{{ feedback.is_addressed|yesno:"Yes,No" }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No feedback submissions yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
