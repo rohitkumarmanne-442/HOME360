@@ -86,5 +86,50 @@ PAYMENT_API_KEY=your_payment_api_key
 ## ⏱️ Project Timeline
 May 2024 - August 2024
 
+
+## 📸 Application Screenshots
+
+### Homepage
+<div align="center">
+  <img src="screenshots/homepage.png" alt="Homepage" width="800"/>
+  <p><em>Main landing page with available services and features</em></p>
+</div>
+
+### Service Listings
+<div align="center">
+  <img src="screenshots/services.png" alt="Services Page" width="800"/>
+  <p><em>Browse through various home services</em></p>
+</div>
+
+### Booking Interface
+<div align="center">
+  <img src="screenshots/Booking.png" alt="Booking System" width="800"/>
+  <p><em>Easy and intuitive booking system</em></p>
+</div>
+
+### User Feedback
+<div align="center">
+  <img src="screenshots/feedback.png" alt="Feedback Section" width="800"/>
+  <p><em>Customer feedback and rating system</em></p>
+</div>
+
+### Order Management
+<div align="center">
+  <img src="screenshots/order.png" alt="Order Management" width="800"/>
+  <p><em>Track and manage service orders</em></p>
+</div>
+
+### Admin Dashboard
+<div align="center">
+  <img src="screenshots/admin.png" alt="Admin Dashboard" width="800"/>
+  <p><em>Administrative control panel</em></p>
+</div>
+
+### User Registration
+<div align="center">
+  <img src="screenshots/Signup.png" alt="Sign Up Page" width="800"/>
+  <p><em>User registration interface</em></p>
+</div>
+
 ## 🤝 Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
